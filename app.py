@@ -9,9 +9,6 @@ import settings
 app = Flask(__name__)
 
 
-# main = Blueprint('main', "__name__")
-
-
 @app.route('/', methods=['GET', 'POST'])
 def index(config_file='settings.py'):  # put application's code here
     video_ids = []
@@ -42,11 +39,11 @@ def index(config_file='settings.py'):  # put application's code here
                 'id': results['id'],
                 'url': f'https://www.youtube.com/watch?v={results["id"]}',
                 'thumbnail': results['snippet']['thumbnails']['high']['url'],
-                'duration': f"{int((parse_duration(results['contentDetails']['duration']).total_seconds()//60))} minutes",
+                'duration': f"{int((parse_duration(results['contentDetails']['duration']).total_seconds() // 60))} minutes",
                 'title': results['snippet']['title'],
             }
             video_data.append(video_info)
-        if request.form.get('submit')=='lucky':
+        if request.form.get('submit') == 'lucky':
             return redirect(f'https://www.youtube.com/watch?v={video_ids[0]}')
     return render_template('index.html', videos=video_data)
 
